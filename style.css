@@ -1,0 +1,140 @@
+    .drink-title {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #2c2c2c;
+        letter-spacing: 0.12em;
+        margin-bottom: 10px;
+        text-align: left;
+        font-family: inherit;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background: #fff;
+        overflow-x: hidden;
+    }
+    .container {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .circle {
+        position: absolute;
+        right: -350px;
+        bottom: -350px;
+        width: 800px;
+        height: 800px;
+        background: #00704A;
+        border-radius: 50%;
+        transition: all 0.7s cubic-bezier(.77,0,.18,1);
+        z-index: 1;
+    }
+    .circle.animate-up {
+        animation: circleUp 0.7s;
+    }
+    .circle.animate-down {
+        animation: circleDown 0.7s;
+    }
+    @keyframes circleUp {
+        0% { filter: brightness(0.8) scale(1); }
+        50% { filter: brightness(1.2) scale(1.05); }
+        100% { filter: brightness(1) scale(1); }
+    }
+    @keyframes circleDown {
+        0% { filter: brightness(1.2) scale(1); }
+        50% { filter: brightness(0.8) scale(0.95); }
+        100% { filter: brightness(1) scale(1); }
+    }
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        transform: translateX(-50%);
+        width: 180px;
+        z-index: 2;
+    }
+    .title {
+        position: absolute;
+        top: 190px;
+        left: 40px;
+        font-size: 3rem;
+        color: #2c2c2c;
+        font-weight: bold;
+        letter-spacing: 0.2em;
+        z-index: 2;
+    }
+    .drink {
+        position: absolute;
+        opacity: 0;
+        transition: opacity 0.7s, transform 0.7s;
+        z-index: 3;
+        width: 350px;
+        max-width: 90vw;
+    }
+    #drink1 {
+        left: 60vw;
+        bottom: 12vh;
+        transform: scale(1)
+    }
+    #drink2 {
+        left: 50%;
+        bottom: 20vh;
+        transform: translateX(-50%) scale(1);
+    }
+    #drink3 {
+        right: 10vw;
+        bottom: 8vh;
+        transform: translateX(-50%) scale(1);
+        width: 400px;
+        max-width: 95vw;
+    }
+    .drink.active {
+        opacity: 1;
+        transform: scale(1.15);
+        animation: drinkPop 0.5s cubic-bezier(.5,1.5,.5,1) forwards;
+    }
+
+    @keyframes drinkPop {
+        0% {
+            opacity: 0;
+            transform: scale(0.7);
+        }
+        60% {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+    }
+    .instructions-container {
+        position: absolute;
+        top: 260px;
+        left: 40px;
+        z-index: 2;
+        width: 490px;
+        max-width: 90vw;
+        background: rgba(255, 255, 255, 0.123);
+        border-radius: 16px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+        padding: 24px 32px;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border: 1.5px solid rgba(255,255,255,0.35);
+    }
+    .instructions {
+        font-size: 1.2rem;
+        color: #2c2c2c;
+        margin: 0;
+    }
+    @media (max-width: 600px) {
+        .title {
+            font-size: 2rem;
+        }
+        .drink {
+            width: 180px;
+        }
+    }

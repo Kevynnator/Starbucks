@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Starbucks Drinks Presentation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="container">
+		<img src="imgs/starbs_logo.png" alt="Starbucks Logo" class="logo">
+		<div class="title">STARBUCKS</div>
+		<div class="instructions-container">
+			<div class="drink-title" id="drinkTitle"></div>
+			<div class="instructions" id="instructions">Scroll down to discover our drinks!</div>
+		</div>
+		<div class="circle" id="circle"></div>
+		<img src="imgs/sakura_bloom.png" alt="Drink 1" class="drink" id="drink1">
+		<img src="imgs/caramel_pudding_frap.png" alt="Drink 2" class="drink" id="drink2">
+		<img src="imgs/white_choco_matcha.png" alt="Drink 3" class="drink" id="drink3">
+	</div>
+	<script>
+		// Drink images should be placed in imgs/drink1.png, drink2.png, drink3.png
+		// Starbucks logo should be placed in imgs/starbucks-logo.png
+		const drinks = [
+			document.getElementById('drink1'),
+			document.getElementById('drink2'),
+			document.getElementById('drink3')
+		];
+		let currentStep = 0;
+		const circle = document.getElementById('circle');
+
+		const drinkTitles = [
+			"",
+			"Sakura Bloom",
+			"Caramel Pudding Frappuccino",
+			"White Choco Matcha"
+		];
+		const instructions = [
+			"Scroll down to discover our drinks!",
+			"Celebrate the season of blossoms with this enchanting springtime favorite. The Sakura Bloom Frappuccino® blends smooth, creamy milk with the delicate sweetness of sakura and strawberry, creating a refreshing yet indulgent harmony of flavors. Topped with a swirl of whipped cream and adorned with pink and white chocolate petals that resemble falling cherry blossoms, every sip is both visually stunning and irresistibly delicious. This limited-edition beverage is more than just a drink—it’s a taste of spring in full bloom.",
+			"Creamy caramel and pudding flavor in a cool treat.",
+			"Smooth white chocolate meets rich matcha for a unique delight."
+		];
+		const instructionsDiv = document.getElementById('instructions');
+		const drinkTitleDiv = document.getElementById('drinkTitle');
+
+		function showDrink(step, direction) {
+			drinks.forEach((drink, i) => {
+				drink.classList.remove('active', 'fade-right', 'fade-left', 'fade-up', 'fade-down');
+				if (i === step) {
+					drink.classList.add('active');
+					if (direction === 'right') drink.classList.add('fade-right');
+					if (direction === 'left') drink.classList.add('fade-left');
+					if (direction === 'up') drink.classList.add('fade-up');
+					if (direction === 'down') drink.classList.add('fade-down');
+				}
+			});
+			// Update instructions and title text
+			instructionsDiv.textContent = instructions[step + 1] || instructions[0];
+			drinkTitleDiv.textContent = drinkTitles[step + 1] || "";
+		}
+
+		function moveCircle(step, scrollDirection) {
+			// Move the circle to bottom right, bottom left, and top right for the 3 scrolls
+			let positions = [
+				{ right: 0, bottom: 0, left: '', top: '', transform: 'none', direction: 'right' }, // bottom right
+				{ left: 0, bottom: 0, right: '', top: '', transform: 'none', direction: 'left' }, // bottom left
+				{ right: 0, top: 0, left: '', bottom: '', transform: 'none', direction: 'down' }  // top right
+			];
+			let pos = positions[step % positions.length];
+			circle.style.right = pos.right;
+			circle.style.left = pos.left;
+			circle.style.top = pos.top;
+			circle.style.bottom = pos.bottom;
+			circle.style.transform = pos.transform;
+			// Remove previous animation classes
+			circle.classList.remove('animate-up', 'animate-down');
+			if (scrollDirection === 'up') {
+				circle.classList.add('animate-up');
+			} else if (scrollDirection === 'down') {
+				circle.classList.add('animate-down');
+			}
+			// Remove animation class after animation ends
+			setTimeout(() => {
+				circle.classList.remove('animate-up', 'animate-down');
+			}, 700);
+			return pos.direction;
+		}
+
+		function handleScroll(e) {
+			const delta = e.deltaY;
+			let direction;
+			if (delta > 0 && currentStep < drinks.length - 1) {
+				currentStep++;
+				direction = moveCircle(currentStep, 'down');
+				showDrink(currentStep, direction);
+			} else if (delta < 0 && currentStep > 0) {
+				currentStep--;
+				direction = moveCircle(currentStep, 'up');
+				showDrink(currentStep, direction);
+			}
+		}
+
+	// Initial state
+	let initialDirection = moveCircle(0, null);
+	instructionsDiv.textContent = instructions[0];
+	drinkTitleDiv.textContent = "";
+	showDrink(0, initialDirection);
+
+		window.addEventListener('wheel', handleScroll, { passive: false });
+		// Prevent page scroll
+		window.addEventListener('scroll', function(e) {
+			window.scrollTo(0, 0);
+		});
+	</script>
+</body>
+</html>
