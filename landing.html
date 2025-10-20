@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Starbucks — Welcome</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="landing-page">
+	<div class="page">
+		<header class="header" role="banner">
+			<div class="brand">
+				<img src="imgs/starbs_logo.png" alt="Starbucks logo">
+			</div>
+			<nav aria-label="Main">
+				<a href="#">Home</a>
+				<a href="#">What's New</a>
+				<a href="#">Menu</a>
+				<a href="#">Contact</a>
+			</nav>
+		</header>
+
+		<main id="hero" class="hero state-matcha" role="main" aria-labelledby="hero-heading">
+			<div class="hero-left">
+				<div class="kicker">It's not just</div>
+				<h1 id="hero-heading" class="hero-title">
+					Coffee<br>
+					It's <span class="green">Starbucks</span>
+				</h1>
+				<p class="hero-copy">
+					Discover our seasonal creations and signature favorites — crafted with care to deliver moments of delight every day.
+				</p>
+				<a class="cta" href="landing.html#explore">Learn More</a>
+			</div>
+
+			<div class="hero-right" aria-hidden="false">
+				
+				<img id="heroDrink" src="imgs/white_choco_matcha.png" alt="White Choco Matcha" class="hero-drink">
+			</div>
+
+			
+			<div class="thumbs" aria-hidden="true">
+				<div class="thumb"><img src="imgs/sakura_bloom.png" alt=""></div>
+				<div class="thumb"><img src="imgs/caramel_pudding_frap.png" alt=""></div>
+				<div class="thumb"><img src="imgs/white_choco_matcha.png" alt=""></div>
+			</div>
+		</main>
+
+		
+		<div id="snowWrap" class="snow-wrap" aria-hidden="true"></div>
+	</div>
+
+<script>
+	(() => {
+		const hero = document.getElementById('hero');
+		const drink = document.getElementById('heroDrink');
+		const snowWrap = document.getElementById('snowWrap');
+
+		const states = [
+			{ name: 'state-matcha', img: 'imgs/white_choco_matcha.png', alt: 'White Choco Matcha' },
+			{ name: 'state-sakura', img: 'imgs/sakura_bloom.png', alt: 'Sakura Bloom' },
+			{ name: 'state-caramel', img: 'imgs/caramel_pudding_frap.png', alt: 'Caramel Pudding Frappuccino' }
+		];
+
+		let idx = 0;
+		const CHANGE_INTERVAL = 5000; //Timer kev hehe
+
+		function clearStateClasses() {
+			hero.classList.remove('state-matcha', 'state-sakura', 'state-caramel');
+		}
+
+		function createSnowflakes(count = 24) {
+	
+			snowWrap.innerHTML = '';
+			for (let i = 0; i < count; i++) {
+				const s = document.createElement('span');
+				s.className = 'snowflake';
+				const left = Math.random() * 100;
+				const size = 6 + Math.random() * 10; 
+				const dur = 6 + Math.random()*6; 
+				const delay = Math.random() * -10; 
+				s.style.left = left + '%';
+				s.style.width = `${size}px`;
+				s.style.height = `${size}px`;
+				s.style.borderRadius = (size/2) + 'px';
+				s.style.opacity = (0.6 + Math.random()*0.4).toFixed(2);
+				s.style.animationDuration = dur + 's';
+				s.style.animationDelay = delay + 's';
+				snowWrap.appendChild(s);
+			}
+		}
+
+		function showState(index) {
+			const st = states[index];
+			clearStateClasses();
+			hero.classList.add(st.name);
+
+			drink.style.opacity = 0;
+			setTimeout(()=> {
+				drink.src = st.img;
+				drink.alt = st.alt;
+				drink.style.opacity = 1;
+			}, 250);
+
+			if (st.name === 'state-caramel') {
+				if (!snowWrap.hasChildNodes()) createSnowflakes(28);
+				snowWrap.classList.add('show');
+				snowWrap.setAttribute('aria-hidden', 'false');
+			} else {
+				snowWrap.classList.remove('show');
+				snowWrap.setAttribute('aria-hidden', 'true');
+				setTimeout(()=> snowWrap.innerHTML = '', 1200);
+			}
+		}
+
+		showState(idx);
+
+		setInterval(() => {
+			idx = (idx + 1) % states.length;
+			showState(idx);
+		}, CHANGE_INTERVAL);
+	})();
+</script>
+</body>
+</html>
+		top:-40px;
+		width:8px;height:8px;border-radius:50%;
+		background:rgba(255,255,255,0.92);
+		opacity:.95;
+		filter:drop-shadow(0 6px 6px rgba(0,0,0,0.08));
+		animation-name:fall;animation-timing-function:linear;animation-iteration-count:infinite;
+	}
+	@keyframes fall{
+		0%{transform:translateY(-10vh) translateX(0) rotate(0deg);opacity:1}
+		100%{transform:translateY(110vh) translateX(40px) rotate(360deg);opacity:.9}
+	}
+
+	/* Responsive adjustments */
+	@media (max-width:1000px){
+		.hero{grid-template-columns:1fr; padding:40px 28px 100px; text-align:center}
+		.hero::before{right:-30%; bottom:-30%; width:140vmax; transform:translateY(12%)}
+		.hero-left{order:2}
+		.hero-right{order:1;margin-bottom:10px}
+		.hero-drink{width:62%}
+		.thumbs{left:50%;transform:translateX(-50%);bottom:18px}
+		.hero-title{font-size:36px}
+	}
+	@media (max-width:480px){
+		.header{padding:18px}
+		.hero-title{font-size:28px}
+		.kicker{font-size:14px}
+		.hero-drink{width:72%}
+		.thumb{width:46px;height:46px}
+	}
+</style>
+</head>
+<body>
+	<div class="page">
+		<header class="header" role="banner">
+			<div class="brand">
+				<img src="imgs/starbs_logo.png" alt="Starbucks logo">
+			</div>
+			<nav aria-label="Main">
+				<a href="#">Home</a>
+				<a href="#">What's New</a>
+				<a href="#">Menu</a>
+				<a href="#">Contact</a>
+			</nav>
+		</header>
+
+		<main id="hero" class="hero state-matcha" role="main" aria-labelledby="hero-heading">
+			<div class="hero-left">
+				<div class="kicker">It's not just</div>
+				<h1 id="hero-heading" class="hero-title">
+					Coffee<br>
+					It's <span class="green">Starbucks</span>
+				</h1>
+				<p class="hero-copy">
+					Discover our seasonal creations and signature favorites — crafted with care to deliver moments of delight every day.
+				</p>
+				<a class="cta" href="landing.html#explore">Learn More</a>
+			</div>
+
+			<div class="hero-right" aria-hidden="false">
+				
+				<img id="heroDrink" src="imgs/white_choco_matcha.png" alt="White Choco Matcha" class="hero-drink">
+			</div>
+
+			
+			<div class="thumbs" aria-hidden="true">
+				<div class="thumb"><img src="imgs/sakura_bloom.png" alt=""></div>
+				<div class="thumb"><img src="imgs/caramel_pudding_frap.png" alt=""></div>
+				<div class="thumb"><img src="imgs/white_choco_matcha.png" alt=""></div>
+			</div>
+		</main>
+
+		
+		<div id="snowWrap" class="snow-wrap" aria-hidden="true"></div>
+	</div>
+
+<script>
+	(() => {
+		const hero = document.getElementById('hero');
+		const drink = document.getElementById('heroDrink');
+		const snowWrap = document.getElementById('snowWrap');
+
+		const states = [
+			{ name: 'state-matcha', img: 'imgs/white_choco_matcha.png', alt: 'White Choco Matcha' },
+			{ name: 'state-sakura', img: 'imgs/sakura_bloom.png', alt: 'Sakura Bloom' },
+			{ name: 'state-caramel', img: 'imgs/caramel_pudding_frap.png', alt: 'Caramel Pudding Frappuccino' }
+		];
+
+		let idx = 0;
+		const CHANGE_INTERVAL = 5000; //Timer kev hehe
+
+		function clearStateClasses() {
+			hero.classList.remove('state-matcha', 'state-sakura', 'state-caramel');
+		}
+
+		function createSnowflakes(count = 24) {
+	
+			snowWrap.innerHTML = '';
+			for (let i = 0; i < count; i++) {
+				const s = document.createElement('span');
+				s.className = 'snowflake';
+				const left = Math.random() * 100;
+				const size = 6 + Math.random() * 10; 
+				const dur = 6 + Math.random()*6; 
+				const delay = Math.random() * -10; 
+				s.style.left = left + '%';
+				s.style.width = `${size}px`;
+				s.style.height = `${size}px`;
+				s.style.borderRadius = (size/2) + 'px';
+				s.style.opacity = (0.6 + Math.random()*0.4).toFixed(2);
+				s.style.animationDuration = dur + 's';
+				s.style.animationDelay = delay + 's';
+				snowWrap.appendChild(s);
+			}
+		}
+
+		function showState(index) {
+			const st = states[index];
+			clearStateClasses();
+			hero.classList.add(st.name);
+
+			drink.style.opacity = 0;
+			setTimeout(()=> {
+				drink.src = st.img;
+				drink.alt = st.alt;
+				drink.style.opacity = 1;
+			}, 250);
+
+			if (st.name === 'state-caramel') {
+				if (!snowWrap.hasChildNodes()) createSnowflakes(28);
+				snowWrap.classList.add('show');
+				snowWrap.setAttribute('aria-hidden', 'false');
+			} else {
+				snowWrap.classList.remove('show');
+				snowWrap.setAttribute('aria-hidden', 'true');
+				setTimeout(()=> snowWrap.innerHTML = '', 1200);
+			}
+		}
+
+		showState(idx);
+
+		setInterval(() => {
+			idx = (idx + 1) % states.length;
+			showState(idx);
+		}, CHANGE_INTERVAL);
+	})();
+</script>
+</body>
+</html>
